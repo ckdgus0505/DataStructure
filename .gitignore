@@ -412,3 +412,5 @@ healthchecksdb
 MigrationBackup/
 
 # End of https://www.gitignore.io/api/c++,windows,visualstudio
+201511061_DataStructure/201511061_DataStructure/matA/matA_10K.txt
+201511061_DataStructure/201511061_DataStructure/matB/matB_10K.txt
