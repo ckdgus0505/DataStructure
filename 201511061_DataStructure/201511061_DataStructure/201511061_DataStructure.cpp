@@ -75,7 +75,7 @@ int main()
 
 	// 4.2 fastMult
 	tik = clock();
-	smatC.fastMult(smatA, smatBT);
+	smatC.fastMult(smatA, smatB);
 	tok = clock();
 	printf("fastMultiply: %f\n", (float)(tok - tik) / CLOCKS_PER_SEC);
 

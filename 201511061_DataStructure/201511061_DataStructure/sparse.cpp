@@ -4,8 +4,16 @@ void smatrix::convert_to_smatrix(int n, int** mat)
 {
 	smatrix::n = n;
 	smatrix::cnt = 0;
-	smatrix::list = new element[10000];
 
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cnt++;
+		}
+	}
+	smatrix::list = new element[cnt];
+	smatrix::cnt = 0;
 	for (int i = 0; i < n; i++)
 	{
 		for (int j = 0; j < n; j++)
@@ -49,9 +57,6 @@ void smatrix::ready()
 	{
 		this->startPos[i] = this->startPos[i - 1] + this->rowTerms[i - 1];
 	}
-
-
-
 
 	for (int i = 1; i < cnt; i++)
 	{
@@ -141,66 +146,22 @@ void smatrix::fastAdd(smatrix  smatA, smatrix smatB)
 }
 void smatrix::fastMult(smatrix  smatA, smatrix smatB)
 {
+	smatrix smatBT;
+	smatA.ready();
+	smatBT.ready();
+	smatBT.fastTranspose(smatB);
 	this->list = new element[15000];
 	this->n = smatA.n;
+	int iterA = 1;
+	int iterB = 1;
 	this->cnt = 0;
-	for (int i = 1; i <= smatA.cnt; i++)
+
+	for (int i = 1; i <= smatA.cnt + smatBT.cnt; i++)
 	{
-		for (int j = 1; j <= smatB.cnt; j++)
+		if (smatA.list[iterA].row == smatBT.list[iterB].row)
 		{
-			if (smatA.list[i].col == smatB.list[j].row) // 곱할 수 있는 성분
-			{
-				if (cnt == 0)
-				{
-					this->cnt++;
-					this->list[cnt].row = smatA.list[i].row;
-					this->list[cnt].col = smatB.list[j].col;
-					this->list[cnt].val = smatA.list[i].val * smatB.list[j].val;
-				} else if (this->list[cnt].row < smatA.list[i].row)
-				{
-					this->cnt++;
-					this->list[cnt].row = smatA.list[i].row;
-					this->list[cnt].col = smatB.list[j].col;
-					this->list[cnt].val = smatA.list[i].val * smatB.list[j].val;
-				
-				} else { // row가 같을때
-					if (this->list[cnt].col < smatB.list[j].col)
-					{
-						this->cnt++;
-						this->list[cnt].row = smatA.list[i].row;
-						this->list[cnt].col = smatB.list[j].col;
-						this->list[cnt].val = smatA.list[i].val * smatB.list[j].val;
-					}
-					else
-					{
-						int k;
-						for (k = cnt; k > 0; k--)
-						{
-							if (this->list[k].row == smatA.list[i].row && this->list[k].col < smatB.list[j].col)
-							{
-								this->cnt++;
-								for (int l = cnt; l > k; l--)
-								{
-									this->list[l] = this->list[l - 1];
-								}
-								this->list[k].row = smatA.list[i].row;
-								this->list[k].col = smatB.list[j].col;
-								this->list[k].val = smatA.list[i].val * smatB.list[j].val;
-								break;
-							}
-				
-							if (this->list[k].row == smatA.list[i].row && this->list[k].col == smatB.list[j].col)
-							{
-								this->list[k].val += smatA.list[i].val * smatB.list[j].val;
-								break;
-							}
-						}
-					}
-
-				}
-
-			}
-			
+			if(smatA.list[iterA].col == smatBT.list[iterB].col)
+				list += 
 		}
 	}
 	this->list[0].val = this->cnt;

@@ -175,13 +175,14 @@ void polynomial::multiply(polynomial pA, polynomial pB)
 			iterA = iterA->next;
 		}
 		else break;
+
 	}
 }
 void polynomial::print()
 {
 	if (is_zero())
 	{
-		printf("0");
+		printf("0\n");
 		return;
 	}
 	term* curr = this->head;
