@@ -13,7 +13,7 @@ pos Exit;
 int nbhd[4][2] = { {-1,0}, {0,1}, {1,0}, {0,-1} };
 int main()
 {
-	FILE* fp = fopen("maze.txt", "r+t");
+	FILE* fp = fopen("2maze.txt", "r+t");
 
 	load_maze(fp);
 
@@ -78,7 +78,7 @@ void solve_maze()
 {
 	int flage = 0;
 	int flagx = 0;
-	route.init(3 * x);
+	route.init(1 * x);
 
 	now = Entry;
 	maze[now.y][now.x] = '#';

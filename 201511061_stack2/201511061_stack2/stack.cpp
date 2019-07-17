@@ -1,29 +1,22 @@
-#include "stack.h"
-pos::pos(int _y, int _x)
-{
-	y = _y;
-	x = _x;
-}
-pos::pos()
-{}
+#include "stack1.h"
 
-void stack::init(int _n)
+void stack1::init(int _n)
 {
 	top = 0;
 	n = _n;
 	arr = (pos*)malloc(sizeof(pos) * n);
 }
-bool stack::is_empty()
+bool stack1::is_empty()
 {
 	if (top == 0) return true;
 	else return false;
 }
-bool stack::is_full()
+bool stack1::is_full()
 {
 	if (top >= n) return true;
 	else return false;
 }
-void stack::push(pos _pos)
+void stack1::push(pos _pos)
 {
 	if (!is_full())
 	{
@@ -42,7 +35,11 @@ void stack::push(pos _pos)
 		arr[top++] = _pos;
 	}
 }
-pos stack::pop()
+void stack1::remove_delimiters(char* _expr2, char* _expr)
+{
+	
+}
+pos stack1::pop()
 {
 	if (!is_empty()) return arr[--top];
 	else
@@ -52,7 +49,7 @@ pos stack::pop()
 		exit(1);
 	}
 }
-pos stack::peek()
+pos stack1::peek()
 {
 	if (!is_empty()) return arr[top];
 	else
