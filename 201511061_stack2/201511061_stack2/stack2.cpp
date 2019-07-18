@@ -1,9 +1,10 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "stack2.h"
 
-void stack2::init(int _n)
+void stack2::init()
 {
 	top = 0;
-	n = _n;
+	n = 100;
 	arr = (double*)malloc(sizeof(double) * n);
 }
 bool stack2::is_empty()
@@ -25,7 +26,7 @@ void stack2::push(double _num)
 	else
 	{
 		n = 2 * n;
-		if (!(arr = (double*)realloc(arr, sizeof(double) * n)) == NULL);
+		if (!(arr = (double*)realloc(arr, sizeof(arr) * n)) == NULL);
 		else
 		{
 			printf("realloc error\n");
@@ -47,10 +48,11 @@ double stack2::pop()
 }
 double stack2::peek()
 {
-	if (!is_empty()) return arr[top];
+	char tmp[7];
+	if (!is_empty()) return arr[top - 1];
 	else
 	{
 		printf("The stack is Empty\n");
-		exit(1);
+		//exit(1);
 	}
 }

@@ -1,7 +1,11 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "stack1.h"
+#include "stack2.h"
+#include <math.h>
 
 extern stack1 tok;
+extern stack1 ptok;
+extern stack2 result;
 
 void stack1::init()
 {
@@ -43,7 +47,7 @@ void stack1::push (char* _tok)
 		}
 		else
 		{
-			tok[top++] = -1 * opcnt;
+			tok[top++] = -1 * opcnt;  // À½¼ö¸é op
 			strcpy(op[opcnt++], _tok);
 		}
 	}
@@ -62,12 +66,12 @@ char* stack1::pop()
 		if (tok[top - 1] > 0) // od
 		{
 			top--;
-			return od[odcnt--];
+			return od[--odcnt];
 		}
 		else if (tok[top - 1] < 0)
 		{
 			top--;
-			return op[opcnt--];
+			return op[--opcnt];
 		}
 	}
 	else
@@ -79,20 +83,24 @@ char* stack1::pop()
 }
 char* stack1::peek()
 {
+	char tmp[7];
 	if (!is_empty())
 	{
-		if (tok[top - 1] >= 0)
-			return od[opcnt];
-		else return op[opcnt];
+		if (tok[top - 1] > 0)
+		{
+			return od[odcnt-1];
+		}
+		else
+		{
+			return op[opcnt-1];
+		}
 	}
 	else
 	{
 		printf("The stack is Empty\n");
-		exit(1);
+		//exit(1);
 	}
 }
-int stack1::get_opcnt() { return opcnt; }
-int stack1::get_odcnt() { return odcnt; }
 
 void stack1::print_tok()
 {
@@ -121,6 +129,7 @@ void stack1::print_tok()
 
 void remove_delimiters(char* _expr2, char* _expr)
 {
+	tok.init();
 	strcpy(_expr2,"\0");
 	for (int i = 0; i < 256; i++)
 	{
@@ -168,4 +177,89 @@ void append(char* dst, char c) {
 	while (*p != '\0') p++;
 	*p = c;
 	*(p + 1) = '\0';
+}
+
+void stack1::postpix()
+{
+	char* tmp = (char*)malloc(sizeof(char) * 7);
+	stack1 opstack;
+	opstack.init();
+	ptok.init();
+	int N = top;
+	for (int i = 0; i < N; i++)
+	{
+
+		if (tok[i] > 0) // operand
+		{
+			ptok.push(od[tok[i]]);
+		}
+		else // opcode
+		{
+			strcpy(tmp, op[-1*tok[i]]);
+			if (strcmp(tmp, "(") == 0)
+				opstack.push(tmp);
+			else if (strcmp(tmp, ")") == 0)
+			{
+				while (strcmp(opstack.peek(), "(") != 0)
+				{
+					strcpy(tmp, opstack.pop());
+					ptok.push(tmp);
+				}
+				opstack.pop();
+			}
+			else if ((opstack.top == 0))
+			{
+				opstack.push(tmp);
+			}
+			else if ((strcmp(opstack.peek(),"*")==0 || strcmp(opstack.peek(), "/") == 0 || strcmp(opstack.peek(), "%") == 0) && (strcmp(tmp, "+") == 0 || strcmp(tmp, "-") == 0))
+			{
+				ptok.push(opstack.pop());
+				opstack.push(tmp);
+			}
+			else opstack.push(tmp);
+
+		}
+	}
+	while (!opstack.is_empty())
+		ptok.push(opstack.pop());
+}
+
+void stack1::evaluate()
+{
+	result.init();
+	int N = top;
+	for ( int i = 0; i < N; i++)
+	{
+		if (tok[i] > 0)
+			result.push(atof(od[tok[i]]));
+		else
+		{
+			char currtok = op[-1 * tok[i]][0];
+			double od1 = result.pop();
+			double od2 = result.pop();
+			switch (currtok) 
+			{ 
+				case '+':
+					result.push(od2 + od1);
+					break;
+				case '-':
+					result.push(od2 - od1);
+					break;
+				case '*':
+					result.push(od2 * od1);
+					break;
+				case '/':
+					result.push(od2 / od1);
+					break;
+				case '%':
+					result.push((int)od2 % (int)od1);
+					break;
+				case '^':
+					result.push(pow(od2, od1));
+					break;
+			}
+		}
+
+	}
+	printf("%f\n",result.pop());
 }

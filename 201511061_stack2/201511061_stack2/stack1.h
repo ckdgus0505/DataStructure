@@ -18,9 +18,9 @@ public:
 	void push(char* _tok);
 	char* pop();
 	char* peek();
-	int get_opcnt();
-	int get_odcnt();
 	void print_tok();
+	void postpix();
+	void evaluate();
 };
 
 void append(char* dst, char c);
