@@ -211,7 +211,7 @@ void stack1::postpix()
 			{
 				opstack.push(tmp);
 			}
-			else if ((strcmp(opstack.peek(),"*")==0 || strcmp(opstack.peek(), "/") == 0 || strcmp(opstack.peek(), "%") == 0) && (strcmp(tmp, "+") == 0 || strcmp(tmp, "-") == 0))
+			else if ((strcmp(opstack.peek(),"*")==0 || strcmp(opstack.peek(), "/") == 0 || strcmp(opstack.peek(), "%") == 0) && (strcmp(tmp, "+") == 0 || strcmp(tmp, "-") == 0)) // ^ 추가 안되어있음ㅠ 우선순위 지정하는 함수 만드는게 좋음
 			{
 				ptok.push(opstack.pop());
 				opstack.push(tmp);

@@ -7,7 +7,7 @@ stack2 result;
 
 int main()
 {
-	char expr[256] = "((3+4)*8-7)/2"; //"31.6 + (19.3 - 2.1)*((1.4^0.6) + 8.5)";
+	char expr[256] = "31.6 + (19.3 - 2.1)*((1.4^0.6) + 8.5)";
 	char expr2[256];
 
 	remove_delimiters(expr2, expr);
