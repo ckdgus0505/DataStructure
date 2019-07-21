@@ -246,18 +246,30 @@ void node::siblings(const char* _name)
 		this->childs[i]->siblings(_name);
 	}
 }
-void node::ancestor(const char* _name, int flag)
+void node::ancestor(const char* _name)
 {
 	// 모든 childs에 대해서 traverser ( ) 수행
 	for (int i = this->nchilds; i >= 1; i--)
 	{
-		this->childs[i]->Rtraverse();
+		this->childs[i]->ancestor(_name);
+	}
+	if (strcmp(this->name, _name) == 0)
+	{
+		nptr tmp;
+		tmp = this;
+		while (true)
+		{
+			if (strcmp(tmp->childs[0]->name, "root") == 0)
+				break;
+			else
+			{
+				tmp = tmp->childs[0];
+				printf("%s\n", tmp->name);
+			}
+		}
 	}
 	// current node의 name과 childs의 name들을 출력
-	if (strcmp(this->name, _name) == 0)
-		flag = 1;
-	if(flag == 1)
-		printf("%s :", this->name);
+
 }
 int node::count_n_descents(int _num)
 {

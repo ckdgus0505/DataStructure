@@ -24,7 +24,7 @@ public:
 	void print_no_descents();
 	void print_max_descents();
 	void siblings(const char* _name);
-	void ancestor(const char* _name, int flag);
+	void ancestor(const char* _name);
 	int count_n_descents(int _num);
 	int count_depth(const char* _ans, const char* _des, int count);
 
