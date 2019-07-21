@@ -16,6 +16,17 @@ public:
 	char* get_parent (char cname[16]);
 	int has_child (char cname[16]);
 	int get_siblings (char siblings[][16], char cname[16]);
+
 	void traverse();
+	void Rtraverse();
+	int countKings();
+	void print_descents(const char* _name, int flag);
+	void print_no_descents();
+	void print_max_descents();
+	void siblings(const char* _name);
+	void ancestor(const char* _name, int flag);
+	int count_n_descents(int _num);
+	int count_depth(const char* _ans, const char* _des, int count);
+
 };
-int parse_str(char toks[][16], char str[256]);
+int parse_str(char toks[][16], char* str);
