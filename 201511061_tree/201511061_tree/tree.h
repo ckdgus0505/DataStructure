@@ -7,6 +7,8 @@ class node {
 	char* name;
 	int nchilds;
 	nptr* childs;
+
+	int descendants;
 public:
 	void init ();
 	bool is_empty ();
@@ -22,6 +24,7 @@ public:
 	int countKings();
 	void print_descents(const char* _name, int flag);
 	void print_no_descents();
+	int count_max_descents();
 	void print_max_descents();
 	void siblings(const char* _name);
 	void ancestor(const char* _name);

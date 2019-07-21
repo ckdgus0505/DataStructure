@@ -2,12 +2,13 @@
 #include "tree.h"
 extern int flag1;
 extern int flag2;
-
+extern int max_des;
 void node::init()
 {
 	this->name = (char*)malloc(sizeof(char) * 16);
 	strcpy(this->name, "-1");
 	this->nchilds = 0;
+	this->descendants = 0; //
 }
 bool  node::is_empty()
 {
@@ -54,7 +55,7 @@ void node::insert(int n_child, char cnames[][16])
 	{
 		this->nchilds = n_child - 1; // -1은 본인
 		//this->childs = (nptr*)malloc(sizeof(nptr) * (n_child));
-		
+		this->descendants = 0; //
 		for (int i = 1; i < n_child; i++)
 		{
 			this->childs[i] = (nptr)malloc(sizeof(node));
@@ -90,7 +91,7 @@ int  node::get_childs(char cnames[][16], char pname[16])
 // (2) 모든 자식들에 대해서 get_childs ( )를 수행
 	else
 	{
-		for (int i = 1; i < nchilds; i++)
+		for (int i = 1; i <= nchilds; i++)
 		{
 			this->childs[i]->get_childs(cnames, pname);
 		}
@@ -107,7 +108,7 @@ char* node::get_parent(char cname[16])
 // (2) 모든 자식들에 대해서 get_parent ( )를 수행
 	else
 	{
-		for (int i = 1; i < nchilds; i++)
+		for (int i = 1; i <= nchilds; i++)
 		{
 			this->childs[i]->get_parent(cname);
 		}
@@ -217,19 +218,27 @@ void node::print_no_descents()
 		this->childs[i]->print_no_descents();
 	}
 }
+int node::count_max_descents()
+{
+	if (this->nchilds > 0)
+		descendants++;
+	for (int i = 1; i <= nchilds; i++)
+	{
+		descendants += this->childs[i]->count_max_descents();
+		if (descendants > max_des) max_des = descendants;
+	}
+	return descendants;
+
+}
 void node::print_max_descents()
 {
-	char* king;
-	int max_des = 0;
 	
-
-	// 직계 후손이 없으면 이름 출력
-	if (this->nchilds <= 0)
+	if (max_des == this->descendants)
 		printf("%s\n", this->name);
-	// 다음 왕 방문
-	for (int i = 1; i <= this->nchilds; i++)
+	for (int i = 1; i <= nchilds; i++)
 	{
-		this->childs[i]->print_no_descents();
+		this->childs[i]->print_max_descents();
+		if (descendants > max_des) max_des = descendants;
 	}
 }
 void node::siblings(const char* _name)

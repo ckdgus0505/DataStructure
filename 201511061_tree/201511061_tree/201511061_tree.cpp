@@ -2,6 +2,7 @@
 #include "tree.h"
 int flag1 = 0;
 int flag2 = 0;
+int max_des = 0;
 int main()
 {
 	char str[256];
@@ -47,6 +48,7 @@ int main()
 	printf("========================================================\n");
 	printf("===직계 후손이 왕이 된 수가 가장 많은 왕은 누구인가?====\n");
 	printf("========================================================\n");
+	root.count_max_descents();
 	root.print_max_descents();
 	printf("\n");
 
