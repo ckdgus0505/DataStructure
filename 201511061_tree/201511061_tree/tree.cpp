@@ -50,7 +50,7 @@ void node::insert(int n_child, char cnames[][16])
 		}
 		return;
 	}
-// (2) current node에 삽입
+// (2) current node에 삽입        // parents의 child가 없는경우만 생각했음, child가 있는 경우도 생각해봐야했음
 	if (strcmp(this->name, cnames[0]) == 0)
 	{
 		this->nchilds = n_child - 1; // -1은 본인
